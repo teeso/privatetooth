@@ -16,8 +16,6 @@ import {
 } from 'react-native';
 import colors from "../constants/colors";
 import BroadcastingServices from '../services/BroadcastingService';
-import exportImage from './../assets/images/export.png';
-import news from './../assets/images/newspaper.png';
 
 import pkLogo from './../assets/images/PKLogo.png';
 
