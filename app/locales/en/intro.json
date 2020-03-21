@@ -1,0 +1,14 @@
+{
+    "private_kit":"Private Tooth",
+    "intro1_para1":"Designed with data security and privacy protection at its heart, MIT Private Tooth is the next generation of secure contact logging.",
+    "next":"NEXT",
+    "back":"BACK",
+    "start":"START",
+    "intro2_title1":"Log Nearby Phones",
+    "intro2_para1":"Private Tooth uses Bluetooth to privately scan and log everyone around you, creating a history of everyone you meet.",
+    "intro2_title2":"Privacy first",
+    "intro2_para2":"Your phone broadcasts a new random ID per hour, making it impossible to know who you or your contacts are. Not even if the government confiscates your or your contacts phone. ",
+    "intro3_title1":"Notify upon Risk",
+    "intro3_para1":"Warn people you met directly upon diagnosis. You can publish your contact IDs to a central database. Other apps will download and compare the public IDs with theirs and warn users of a pontential contamination",
+    "intro3_para2":"Learn More http://privatekit.mit.edu/"
+}
