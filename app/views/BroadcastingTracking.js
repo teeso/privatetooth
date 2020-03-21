@@ -12,10 +12,12 @@ import {
     Image,
     ScrollView,
     BackHandler,
-    Button
+    Button,
+    FlatList 
 } from 'react-native';
 import colors from "../constants/colors";
 import BroadcastingServices from '../services/BroadcastingService';
+import Moment from 'moment';
 
 import pkLogo from './../assets/images/PKLogo.png';
 
@@ -27,29 +29,53 @@ const width = Dimensions.get('window').width;
 class BroadcastingTracking extends Component {
     constructor(props) {
         super(props);
-        
+        Moment.locale('en');
+
         this.state = {
-            isLogging:''
+            isLogging:'',
+            contacts: []
         }
     }
 
     componentDidMount() {
         BackHandler.addEventListener("hardwareBackPress", this.handleBackPress); 
+        
+        GetStoreData('CONTACT_DATA')
+        .then(contactArrayString => {
+            if (contactArrayString !== null) {
+                var contactArray = JSON.parse(contactArrayString);
+                var curated = [];
+                for (var i = 0; i < contactArray.length; i++) {
+                    curated.push({
+                         key: contactArray[i].uuid, 
+                        uuid: contactArray[i].uuid, 
+                        time: contactArray[i].time,
+                        timeStr: oment(contactArray[i].time).format('MMMM Do, YYYY H:mma')
+                    });
+                }
+
+                console.log(curated);
+                this.setState({contacts: curated});
+            } else {
+                this.setState({contacts: []});
+            }
+            
+        })
+        .catch(error => console.log(error))
+
         GetStoreData('PARTICIPATE')
-        .then(isParticipating => {
-            console.log(isParticipating);
-               
-                if(isParticipating === 'true'){
-                    this.setState({
-                        isLogging:true
-                    })
-                    this.willParticipate()
-                }
-                else{
-                    this.setState({
-                        isLogging:false
-                    }) 
-                }
+        .then(isParticipating => {   
+            if(isParticipating === 'true'){
+                this.setState({
+                    isLogging:true
+                })
+                this.willParticipate()
+            }
+            else{
+                this.setState({
+                    isLogging:false
+                }) 
+            }
         })
         .catch(error => console.log(error))
     }
@@ -115,17 +141,21 @@ class BroadcastingTracking extends Component {
                                 </>)
                             }
 
-                           
                            {this.state.isLogging ?  
                             <Text style={styles.sectionDescription}>{languages.t('label.logging_message')}</Text> :
                             <Text style={styles.sectionDescription}>{languages.t('label.not_logging_message')}</Text> }
-                        
-
                         </View>
                     </View>
-
-                    
                 </ScrollView>
+
+                <View style={styles.listPastConnections}>
+                    <Text style={styles.subHeaderTitle}>Last Contacts</Text>
+                    <FlatList
+                        data={ this.state.contacts }
+                        renderItem={({item}) => <Text style={styles.itemPastConnections}>{item.timeStr}: {item.uuid}</Text>}
+                        />
+
+                </View>
 
                 <View style={styles.footer}>
                     <Text style={[styles.sectionDescription, { textAlign: 'center', paddingTop: 15 }]}>{languages.t('label.url_info')} </Text>
@@ -145,6 +175,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         color: colors.PRIMARY_TEXT,
         backgroundColor: colors.WHITE,
+    },
+    listPastConnections: {
+        width: "80%",
+        height: 200
+    },
+    itemPastConnections: {
+        padding: 3
     },
     headerTitle: {
         textAlign: 'center',
