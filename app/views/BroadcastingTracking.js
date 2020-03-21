@@ -45,16 +45,17 @@ class BroadcastingTracking extends Component {
             if (contactArrayString !== null) {
                 var contactArray = JSON.parse(contactArrayString);
                 var curated = [];
+                console.log("Preparing to View ", contactArray);
                 for (var i = 0; i < contactArray.length; i++) {
                     curated.push({
                          key: contactArray[i].uuid, 
                         uuid: contactArray[i].uuid, 
                         time: contactArray[i].time,
-                        timeStr: oment(contactArray[i].time).format('MMMM Do, YYYY H:mma')
+                        timeStr: Moment(contactArray[i].time).format('MMM Do, H:mma')
                     });
                 }
 
-                console.log(curated);
+                console.log("Sending to View ", curated);
                 this.setState({contacts: curated});
             } else {
                 this.setState({contacts: []});
