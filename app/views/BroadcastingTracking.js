@@ -48,7 +48,7 @@ class BroadcastingTracking extends Component {
                 console.log("Preparing to View ", contactArray);
                 for (var i = 0; i < contactArray.length; i++) {
                     curated.push({
-                         key: contactArray[i].uuid, 
+                         key: contactArray[i].uuid + "-"+ contactArray[i].time, 
                         uuid: contactArray[i].uuid, 
                         time: contactArray[i].time,
                         timeStr: Moment(contactArray[i].time).format('MMM Do, H:mma')
