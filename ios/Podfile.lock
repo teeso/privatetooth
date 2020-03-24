@@ -184,10 +184,6 @@ PODS:
   - React-jsinspector (0.61.5)
   - react-native-background-timer (2.2.0):
     - React
-  - react-native-ble-plx (1.1.1):
-    - React
-    - react-native-ble-plx-swift
-  - react-native-ble-plx-swift (1.1.1)
   - react-native-safe-area-context (0.7.3):
     - React
   - react-native-uuid-generator (6.1.1):
@@ -241,7 +237,7 @@ PODS:
     - React
   - RNI18n (2.0.15):
     - React
-  - RNReanimated (1.7.0):
+  - RNReanimated (1.7.1):
     - React
   - RNScreens (2.4.0):
     - React
@@ -265,8 +261,6 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - react-native-background-timer (from `../node_modules/react-native-background-timer`)
-  - react-native-ble-plx (from `../node_modules/react-native-ble-plx`)
-  - react-native-ble-plx-swift (from `../node_modules/react-native-ble-plx`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-uuid-generator (from `../node_modules/react-native-uuid-generator`)
   - "react-native-viewpager (from `../node_modules/@react-native-community/viewpager`)"
@@ -326,10 +320,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   react-native-background-timer:
     :path: "../node_modules/react-native-background-timer"
-  react-native-ble-plx:
-    :path: "../node_modules/react-native-ble-plx"
-  react-native-ble-plx-swift:
-    :path: "../node_modules/react-native-ble-plx"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-uuid-generator:
@@ -392,8 +382,6 @@ SPEC CHECKSUMS:
   React-jsiexecutor: d5525f9ed5f782fdbacb64b9b01a43a9323d2386
   React-jsinspector: fa0ecc501688c3c4c34f28834a76302233e29dc0
   react-native-background-timer: 1f7d560647b40e6a60b01c452ba29c54bf581fc4
-  react-native-ble-plx: 304c7bee074a05581672c9990f375b3906808718
-  react-native-ble-plx-swift: eb64f02b988becb84a60164aba9fab5d6ddb6dc8
   react-native-safe-area-context: e200d4433aba6b7e60b52da5f37af11f7a0b0392
   react-native-uuid-generator: 82ffa2a1cac94242ebed52c4dedc5044d3412717
   react-native-viewpager: a7b438ca32c57b2614ece2a123e7fe116f743131
@@ -413,10 +401,10 @@ SPEC CHECKSUMS:
   RNFS: 2bd9eb49dc82fa9676382f0585b992c424cd59df
   RNGestureHandler: 8f09cd560f8d533eb36da5a6c5a843af9f056b38
   RNI18n: e2f7e76389fcc6e84f2c8733ea89b92502351fd8
-  RNReanimated: 031fe8d9ea93c2bd689a40f05320ef9d96f74d7f
+  RNReanimated: 4e102df74a9674fa943e05f97f3362b6e44d0b48
   RNScreens: b5c0e1b2b04512919e78bd3898e144a157ce2363
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: e4bcc3d6aa78a2c6d3ed98c13e7ea453b343d5d8
+PODFILE CHECKSUM: ef45a8e7ed6bdabfd415124e4e6ebe7076736a1a
 
 COCOAPODS: 1.9.1
