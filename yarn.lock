@@ -5423,10 +5423,10 @@ react-native-background-timer@^2.2.0:
   resolved "https://registry.yarnpkg.com/react-native-background-timer/-/react-native-background-timer-2.2.0.tgz#ff82d30899209b924983cc00e6ce174b8de5054a"
   integrity sha512-Y7N6diSFko/FCJPMmB0PoBlmY1kEcma7qDVwn8t7zi12GLqpe/Vwls97onkSD8/QL+BR33BygUHOrLTPwgeKfg==
 
-react-native-ble-advertiser@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-ble-advertiser/-/react-native-ble-advertiser-0.0.1.tgz#041f4a79d2134a53b720ac54063b879216a18744"
-  integrity sha512-n/6+efoHjStgVqD8ax/PNmjeknDPQUhiTw5ufy/hlcs5wef0xFEexswIevKQvpqdqbxd2lfBAHuTy0dpp9wkZw==
+react-native-ble-advertiser@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/react-native-ble-advertiser/-/react-native-ble-advertiser-0.0.3.tgz#ff8ed1b146f85d105a190ec6f09a93ddf24882f7"
+  integrity sha512-k/5TMPhS3JdgZ1E7oa6fS18zb7OL+NRSt19NsUEEFzF97MAlQXXJuaP4lPrmQYov2xTsfCW9La/cOqY6YoFlQQ==
 
 react-native-extended-stylesheet@^0.12.0:
   version "0.12.0"

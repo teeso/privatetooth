@@ -10,6 +10,8 @@ import BackgroundTimer from 'react-native-background-timer';
 import UUIDGenerator from 'react-native-uuid-generator';
 import Moment from 'moment';
 
+import AndroidBLEAdvertiserModule from 'react-native-ble-advertiser'
+
 var instanceCount = 0;
 var lastPointCount = 0;
 var broadcastingInterval = 60000 * 5;  // Time (in milliseconds) between broadcasting information polls.  E.g. 60000*5 = 5 minutes
@@ -94,19 +96,25 @@ function saveMyUUID(me) {
         });
 }
 
-function getLastUUID() {
+function loadLastUUIDAndBroadcast() {
     GetStoreData('MY_UUIDs')
         .then(myUUIDArrayString => {
             var myUUIDArray;
             if (myUUIDArrayString !== null) {
                 myUUIDArray = JSON.parse(myUUIDArrayString);
                 console.log("Loading last uuid ", myUUIDArray[myUUIDArray.length-1].uuid);
-                return myUUIDArray[myUUIDArray.length-1].uuid;
+                currentUUID = myUUIDArray[myUUIDArray.length-1].uuid;
+
+                console.log("Broadcasting: ", currentUUID);
+                AndroidBLEAdvertiserModule.setCompanyId(0xE2);
+                AndroidBLEAdvertiserModule.broadcastPacket(currentUUID, [1,2])
+                .then((sucess) => {
+                    console.log("Sucessful", sucess);
+                }).catch(error => console.log(error));
             } else {
-                myUUIDArray = [];
+                generateNewUUID();
             }
         });
-    return null;
 }
 
 function generateNewUUID() {
@@ -118,11 +126,7 @@ function generateNewUUID() {
 
 export default class BroadcastingServices {
     static start() {
-        currentUUID = getLastUUID();
-        
-        if (!currentUUID) {
-            generateNewUUID();
-        }
+        loadLastUUIDAndBroadcast();
 
         instanceCount += 1;
 
