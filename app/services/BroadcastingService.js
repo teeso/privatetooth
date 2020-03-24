@@ -9,6 +9,7 @@ import { BleManager } from 'react-native-ble-plx';
 
 import BackgroundTimer from 'react-native-background-timer';
 import UUIDGenerator from 'react-native-uuid-generator';
+import Moment from 'moment';
 
 var instanceCount = 0;
 var lastPointCount = 0;
@@ -57,7 +58,7 @@ function saveMyUUID(me) {
     // Persist this contact data in our local storage of time/lat/lon values
 
     GetStoreData('MY_UUIDs')
-        .then(myUUIDString => {
+        .then(myUUIDArrayString => {
             var myUUIDArray;
             if (myUUIDArrayString !== null) {
                 myUUIDArray = JSON.parse(myUUIDArrayString);
@@ -74,34 +75,57 @@ function saveMyUUID(me) {
             // calculated UTC time (maybe a few milliseconds off from
             // when the GPS data was collected, but that's unimportant
             // for what we are doing.)
-            lastPointCount = myUUID.length;
-            console.log('[GPS] Saving myUUID:', lastPointCount);
-            var lat_lon_time = {
+            lastPointCount = myUUIDArray.length;
+            var uuid_time = {
                 "uuid": me["uuid"],
                 "time": unixtimeUTC
             };
-            myUUID.push(lat_lon_time);
+            console.log('[GPS] Saving myUUID:', Moment(unixtimeUTC).format('MMM Do, H:mma'), me["uuid"], lastPointCount);
+            myUUIDArray.push(uuid_time);
 
-            SetStoreData('MY_UUIDs', myUUID);
+            SetStoreData('MY_UUIDs', myUUIDArray);
         });
+}
+
+function getLastUUID() {
+    GetStoreData('MY_UUIDs')
+        .then(myUUIDArrayString => {
+            var myUUIDArray;
+            if (myUUIDArrayString !== null) {
+                myUUIDArray = JSON.parse(myUUIDArrayString);
+                console.log("Loading last uuid ", myUUIDArray[myUUIDArray.length-1].uuid);
+                return myUUIDArray[myUUIDArray.length-1].uuid;
+            } else {
+                myUUIDArray = [];
+            }
+        });
+    return null;
+}
+
+function generateNewUUID() {
+    UUIDGenerator.getRandomUUID((uuid) => {
+        currentUUID = uuid;
+        saveMyUUID({'uuid':uuid});
+    });
 }
 
 export default class BroadcastingServices {
     static start() {
+        currentUUID = getLastUUID();
+        
+        if (!currentUUID) {
+            generateNewUUID();
+        }
+
         instanceCount += 1;
 
         BackgroundTimer.runBackgroundTimer(() => { 
-            UUIDGenerator.getRandomUUID((uuid) => {
-                console.log("New UUID: ", uuid);
-                currentUUID = uuid;
-                saveMyUUID(uuid);
-            });
+            generateNewUUID();
         }, 1000 * 60 * 60); // Every hour, change UUID
 
-        BackgroundTimer.runBackgroundTimer(() => { 
-            console.log("Making my self discoverable: ", uuid);
-            makeMyselfDiscoverable();
-        }, 1000 * 60 * 3); // Every 3 minutes: make myself discoverable. 
+        //BackgroundTimer.runBackgroundTimer(() => { 
+        //    
+        //}, 1000 * 60 * 3); // Every 3 minutes: make myself discoverable. 
 
         PushNotification.configure({
             // (required) Called when a remote or local notification is opened or received
