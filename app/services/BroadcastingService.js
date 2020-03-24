@@ -5,7 +5,6 @@ import {
 
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import PushNotification from "react-native-push-notification";
-import { BleManager } from 'react-native-ble-plx';
 
 import BackgroundTimer from 'react-native-background-timer';
 import UUIDGenerator from 'react-native-uuid-generator';
@@ -16,9 +15,17 @@ var lastPointCount = 0;
 var broadcastingInterval = 60000 * 5;  // Time (in milliseconds) between broadcasting information polls.  E.g. 60000*5 = 5 minutes
 // DEBUG: Reduce Time intervall for faster debugging
 // var broadcastingInterval = 5000;
-var bleManager = new BleManager();
-var currentUUID = "";
+var currentUUID = null;
 
+const PRIVATE_KIT_SERVICE_UUID = "C6BDEE55-7E0F-4618-B842-EFF2270E8629";
+
+// Define a region which can be identifier + uuid,
+// identifier + uuid + major or identifier + uuid + major + minor
+// (minor and major properties are numbers)
+var region = {
+	identifier: 'PrivaateTooth',
+	uuid: PRIVATE_KIT_SERVICE_UUID
+};
 
 function saveContact(contact) {
     // Persist this contact data in our local storage of time/lat/lon values
@@ -137,47 +144,7 @@ export default class BroadcastingServices {
             requestPermissions: true
           });
 
-        console.log("Starting Bluetooth");
-
-        const subscription = bleManager.onStateChange((state) => {
-            if (state === 'PoweredOn') {
-                console.log(state);
-                scan();
-                subscription.remove();
-            }
-        }, true);           
-
-        BroadcastingServices.scan();
-    }
-
-    static makeMyselfDiscoverable() {
-        console.log("Making my self discoverable: ", uuid);
-    }
-
-    static scan() {
-        console.log("Scanning");
-        bleManager.startDeviceScan(null, null, (error, device) => {
-            saveContact({uuid:'test'});
-            if (error) {
-                console.log("Device error:", error);
-                // Handle error (scanning will be stopped automatically)
-                return
-            }
-
-            console.log("Found:", device, error);
-
-            // Check if it is a device you are looking for based on advertisement data
-            // or other criteria.
-            if (device.name === 'TI BLE PrivateTooth' || 
-                device.name === 'PrivateTooth') {
-                
-                console.log("Found PrivateTooth's Code:", device);
-
-                saveContact({uuid:'uuid'});
-
-                // Proceed with connection.
-            }
-        });
+        console.log("Starting Bluetooth");          
     }
 
     static getPointCount() {
@@ -197,7 +164,7 @@ export default class BroadcastingServices {
 
         console.log("Stopping Bluetooth");
 
-        bleManager.destroy();
+
         BackgroundTimer.stopBackgroundTimer();
     }
 }
